@@ -60,7 +60,7 @@ function draw() {
 
 function gotFile(file) {
   if (file.type === 'image') {
-    var img = createImg(file.data).hide();
+    var img = createImg(file.data);
     image(img, 0, 0, width, height);
     mobilenet.predict(img, gotResults);
   } else{
