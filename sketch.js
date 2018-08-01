@@ -1,17 +1,22 @@
-// Starter Code derived from starter code/tutorial from CodingTrain ml5.js tutorial.
-// implementing drag/drop functionality.
+/*
+Starter Code derived from from CodingTrain ml5.js tutorial,
+and ml5 examples github.com/ml5js/ml5-examples
+Author : Quinn Milionis
+*/
 
 let mobilenet;
 var dropzone;
-var img
-var status
-// for static version
-let doggo;
+var img;
+
+let status;
 
 function modelReady() {
   console.log('MobileNet is ready to go');
   // status.html("Ready!");
   // mobilenet.predict(doggo, gotResults);
+  // var status = document.getElementsByTagName('h1');
+  console.log(status);
+  status.html('Model Ready');
 }
 
 // callbacks: where is result coming from?
@@ -32,24 +37,23 @@ function imageInCanvas() {
   image(doggo, 0, 0, height, width);
 }
 
-
 // runs automatically
 function setup() {
-  // todo, add loading status bar. 
   // status = createP('Loading').addClass('status');
   var c = createCanvas(680, 700);
-  background(100);
+  background('#ccc');
   c.drop(gotFile);
+  status = select('#status');
 // uses a callback
   mobilenet = ml5.imageClassifier('MobileNet', modelReady);
 }
 
 function draw() {
-  fill(255);
+  fill(250);
   noStroke();
   textSize(24);
   textAlign(CENTER);
-  text('drop an image.', width/2, height/2);
+  text('drop image here.', width/2, height/2);
   noLoop();
 }
 
@@ -57,7 +61,6 @@ function draw() {
 function gotFile(file) {
   if (file.type === 'image') {
     var img = createImg(file.data).hide();
-
     image(img, 0, 0, width, height);
     mobilenet.predict(img, gotResults);
   } else{
