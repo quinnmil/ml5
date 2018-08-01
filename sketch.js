@@ -1,15 +1,17 @@
 // Starter Code derived from starter code/tutorial from CodingTrain ml5.js tutorial.
-// implementing drag/drop functionality. 
+// implementing drag/drop functionality.
 
 let mobilenet;
-let doggo;
 var dropzone;
-let image;
+var img
+var status
+// for static version
+let doggo;
 
 function modelReady() {
   console.log('MobileNet is ready to go');
+  // status.html("Ready!");
   // mobilenet.predict(doggo, gotResults);
-
 }
 
 // callbacks: where is result coming from?
@@ -30,36 +32,35 @@ function imageInCanvas() {
   image(doggo, 0, 0, height, width);
 }
 
-function highlight(){
-  dropzone.style('background-color','#bbcce8');
-}
-function unHighlight(){
-  dropzone.style('background-color','#fff');
-}
-function gotFile(file); {
-  image = createImg(file.data, imageInCanvas);
-  image.hide()
-
-}
-function classifier(image){
-
-}
 
 // runs automatically
 function setup() {
-
-  createCanvas(680, 700);
-  background(0);
-
-  dropzone = select('#dropzone');
-  dropzone.dragOver(highlight);
-  dropzone.dragLeave(unHighlight);
-  dropzone.drop(gotFile, unHighlight);
-
-// used for static images
-  // doggo = createImg('images/harper.jpg', imageInCanvas);
-  // doggo.hide();
-
+  // todo, add loading status bar. 
+  // status = createP('Loading').addClass('status');
+  var c = createCanvas(680, 700);
+  background(100);
+  c.drop(gotFile);
 // uses a callback
   mobilenet = ml5.imageClassifier('MobileNet', modelReady);
+}
+
+function draw() {
+  fill(255);
+  noStroke();
+  textSize(24);
+  textAlign(CENTER);
+  text('drop an image.', width/2, height/2);
+  noLoop();
+}
+
+
+function gotFile(file) {
+  if (file.type === 'image') {
+    var img = createImg(file.data).hide();
+
+    image(img, 0, 0, width, height);
+    mobilenet.predict(img, gotResults);
+  } else{
+    println('not an image file');
+  }
 }
