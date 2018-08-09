@@ -1,0 +1,8 @@
+sudo apt install python3-pip
+make requirements.txt file
+make Makefile
+create dir structure
+create flask file
+create html templates
+sudo apt install python3-venv
+
