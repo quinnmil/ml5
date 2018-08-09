@@ -5,10 +5,12 @@ Author : Quinn Milionis
 */
 
 let mobilenet;
-var dropzone;
 var img;
 
 let status;
+let yesButton;
+let noButton;
+
 
 function modelReady() {
   console.log('MobileNet is ready to go');
@@ -25,25 +27,33 @@ function gotResults(error, results) {
     console.error(error);
   } else {
     console.log(results);
+    checkProb(results);
     for (key in results) {
       let lable = results[key].className.split(',');
       let probability = results[key].probability;
-      createP(lable[0] + ' with a probability of ' + probability + '<br>');;
+      createP(lable[0] + ' with a probability of ' + probability + '<br>');
     }
+
   }
 }
+
 
 function imageInCanvas() {
   image(doggo, 0, 0, height, width);
 }
 
-// runs automatically
 function setup() {
   // status = createP('Loading').addClass('status');
-  var c = createCanvas(680, 700);
+  var canvas = createCanvas(500, 500);
+  canvas.parent('p5_canvas');
   background('#ccc');
-  c.drop(gotFile);
+  canvas.drop(gotFile);
+
   status = select('#status');
+  yesButton = select('#yesButton');
+  noButton = select('#noButton');
+  yesButton.mousePressed(logYes);
+  noButton.mousePressed(logNo);
 // uses a callback
   mobilenet = ml5.imageClassifier('MobileNet', modelReady);
 }
@@ -60,10 +70,28 @@ function draw() {
 
 function gotFile(file) {
   if (file.type === 'image') {
-    var img = createImg(file.data);
+    var img = createImg(file.data).hide();
     image(img, 0, 0, width, height);
     mobilenet.predict(img, gotResults);
   } else{
     println('not an image file');
   }
+}
+
+function checkProb(resutls){
+  let lable = results[0].className.split(',');
+  let probability = results[key].probability;
+  if (probability >= 0.75){
+    console.log('probablity above 70')
+    return true;
+  }
+  else{return false}
+}
+
+function logNo(){
+  console.log('no pressed')
+
+}
+function logYes(){
+  console.log('yes pressed')
 }
