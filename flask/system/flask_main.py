@@ -3,6 +3,11 @@ from flask import render_template
 from flask import request
 from flask import url_for
 import logging
+import pymongo
+from pymongo import MongoClient
+client = MongoClient()
+db = client.test_db
+collection = db.test_collection
 
 app = flask.Flask(__name__)
 app.debug=True
