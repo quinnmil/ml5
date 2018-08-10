@@ -5,4 +5,9 @@ create dir structure
 create flask file
 create html templates
 sudo apt install python3-venv
+add mongodb-org repo to ubuntu repo list
+sudo apt-get install -y mongodb-org
+sudo systemctl start mongod
+bash: mongo
+mongo shell: mongo --host <localhost>:27017
 
