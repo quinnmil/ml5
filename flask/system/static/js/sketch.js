@@ -78,9 +78,9 @@ function gotFile(file) {
   }
 }
 
-function checkProb(resutls){
+function checkProb(results){
   let lable = results[0].className.split(',');
-  let probability = results[key].probability;
+  let probability = results[0].probability;
   if (probability >= 0.75){
     console.log('probablity above 70')
     return true;
