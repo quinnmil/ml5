@@ -10,7 +10,8 @@ var img;
 let status;
 let yesButton;
 let noButton;
-
+// global var to store most recent results
+let lastResult;
 
 function modelReady() {
   console.log('MobileNet is ready to go');
@@ -27,6 +28,7 @@ function gotResults(error, results) {
     console.error(error);
   } else {
     console.log(results);
+    lastResult = results;
     checkProb(results);
     for (key in results) {
       let lable = results[key].className.split(',');
@@ -37,10 +39,6 @@ function gotResults(error, results) {
   }
 }
 
-
-function imageInCanvas() {
-  image(doggo, 0, 0, height, width);
-}
 
 function setup() {
   // status = createP('Loading').addClass('status');
@@ -78,20 +76,43 @@ function gotFile(file) {
   }
 }
 
+/* removed probability threshold for simplicity
+
 function checkProb(results){
-  let lable = results[0].className.split(',');
-  let probability = results[0].probability;
-  if (probability >= 0.75){
-    console.log('probablity above 70')
-    return true;
+  if (lastResult){
+    let label = results[0].className.split(',');
+    let probability = results[0].probability;
+    if (probability >= 0.75){
+      console.log('probablity above 75')
+      return true;
+    }
+    else{return false};
   }
-  else{return false}
+  else{return false};
+}
+*/
+
+function sendResults(){
+  // checks if user has submitted anything
+  if (lastResult){
+    let label = results[0].className.split(',');
+    let probability = results[0].probability;
+    // send to server
+    $.post(
+      '/results',
+    { label: label,
+      probability: probability});
+  }
 }
 
+/* if incorrect button pressed,
+send results to server */
 function logNo(){
+  sendResults()
   console.log('no pressed')
 
 }
+// if correct button is pressed, do nothing.
 function logYes(){
   console.log('yes pressed')
 }
