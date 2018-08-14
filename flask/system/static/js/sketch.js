@@ -10,8 +10,10 @@ var img;
 let status;
 let yesButton;
 let noButton;
+let printResult;
 // global var to store most recent results
 let lastResult;
+
 
 function modelReady() {
   console.log('MobileNet is ready to go');
@@ -29,14 +31,14 @@ function gotResults(error, results) {
   } else {
     console.log(results);
     lastResult = results;
-    checkProb(results);
-    for (key in results) {
-      let lable = results[key].className.split(',');
-      let probability = results[key].probability;
-      createP(lable[0] + ' with a probability of ' + probability + '<br>');
+    if(printResult){
+      printResult.remove();
     }
 
-  }
+    let lable = results[0].className.split(',');
+    let probability = results[0].probability;
+    printResult = createP(lable[0] + ' with a probability of ' + probability + '<br>');
+    }
 }
 
 
