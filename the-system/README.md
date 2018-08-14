@@ -21,7 +21,7 @@
 - `gunicorn -c gunicorn.conf -b 0.0.0.0:5000 the-system:app`
 
 #### Give folder permissions to your user
-- `chown -R <uname>:<uname> /var/www/the-system-app/
+- `chown -R <uname>:<uname> /var/www/the-system-app/`
 
 #### Create systemd service file for our app
 - cp `the-system.service` file to `/etc/systemd/system/`
