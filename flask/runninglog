@@ -10,4 +10,17 @@ sudo apt-get install -y mongodb-org
 sudo systemctl start mongod
 bash: mongo
 mongo shell: mongo --host <localhost>:27017
-
+sudo apt install apache2-dev # for mod_wsgi
+sudo apt install libapache2-mod-wsgi
+sudo a2enmod wsgi
+mv flask dir to /var/www/
+###### NEW WAY
+(with apache2 installed)
+sudo a2enmod proxy proxy_ajp proxy_http rewrite deflate headers proxy_balancer proxy_connect proxy_html
+add reverse proxy to 000-default.conf
+create flask proj dir
+install python3 venv
+install requirements.txt file
+create gunicorn.conf file
+create .service file for app
+enable app to start at boot
