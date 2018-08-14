@@ -31,6 +31,7 @@
 - `systemctl start the-system` to start the app
 - `systemctl status the-system` to monitor the app
 
-
+#### When making changes to files restart the service
+- `systemctl restart the-system`
 
 
