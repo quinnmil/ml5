@@ -29,7 +29,7 @@ function gotResults(error, results) {
   } else {
     console.log(results);
     lastResult = results;
-    checkProb(results);
+    //checkProb(results);
     for (key in results) {
       let lable = results[key].className.split(',');
       let probability = results[key].probability;
