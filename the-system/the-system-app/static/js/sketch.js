@@ -10,8 +10,10 @@ var img;
 let status;
 let yesButton;
 let noButton;
+let printResult;
 // global var to store most recent results
 let lastResult;
+
 
 function modelReady() {
   console.log('MobileNet is ready to go');
@@ -29,14 +31,14 @@ function gotResults(error, results) {
   } else {
     console.log(results);
     lastResult = results;
-    //checkProb(results);
-    for (key in results) {
-      let lable = results[key].className.split(',');
-      let probability = results[key].probability;
-      createP(lable[0] + ' with a probability of ' + probability + '<br>');
+    if(printResult){
+      printResult.remove();
     }
 
-  }
+    let lable = results[0].className.split(',');
+    let probability = results[0].probability;
+    printResult = createP(lable[0] + ' with a probability of ' + probability + '<br>');
+    }
 }
 
 
@@ -68,7 +70,7 @@ function draw() {
 
 function gotFile(file) {
   if (file.type === 'image') {
-    var img = createImg(file.data).hide();
+    var img = createImg(file.data);
     image(img, 0, 0, width, height);
     mobilenet.predict(img, gotResults);
   } else{
@@ -95,13 +97,13 @@ function checkProb(results){
 function sendResults(){
   // checks if user has submitted anything
   if (lastResult){
-    let label = results[0].className.split(',');
-    let probability = results[0].probability;
+    let label = lastResult[0].className;
+    let probability = lastResult[0].probability;
     // send to server
     $.post(
       '/results',
-    { label: label,
-      probability: probability});
+    { "label": label,
+      'probability': probability});
   }
 }
 
